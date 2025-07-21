@@ -1,0 +1,32 @@
+mode:
+  debug: true
+
+server:
+  port: 8888
+
+mysql_db:
+  dsn: root:admin1234@tcp(127.0.0.1:3306)/go_vue_learn?charset=utf8mb4&parseTime=True&loc=Local
+  MaxIdleConns: 10 # 最多空闲连接数
+  MaxOpenConns: 100 # 最多打开连接数
+  SetConnMaxLifetime: 60
+
+redis:
+  host: 127.0.0.1
+  port: 6379
+  password: ""
+
+jwt:
+  tokenExpire: 30 # token过期时间，单位：分钟
+  signKey: jimijimi
+
+ansible:
+  user:
+    name: root
+    password: admin1234
+  shutdownHost:
+    args: poweroff
+
+log:
+  MaxSize: 1 # 日志文件最大尺寸（M），超过最大大尺寸时，会自动分割
+  MaxBackups: 10 # 保留文件的最大个数
+  MaxAge: 90 # 保留文件最大天数
