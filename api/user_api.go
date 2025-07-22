@@ -2,7 +2,7 @@
  * @Author: JimZhang
  * @Date: 2025-07-18 10:54:21
  * @LastEditors: 很拉风的James
- * @LastEditTime: 2025-07-21 23:44:06
+ * @LastEditTime: 2025-07-22 13:35:45
  * @FilePath: /server/api/user_api.go
  * @Description:
  *
@@ -11,9 +11,9 @@ package api
 
 import (
 	"fmt"
+	"net/http"
 	"server/service"
 	"server/service/dto"
-	"server/utils"
 
 	"github.com/gin-gonic/gin"
 )
@@ -24,6 +24,7 @@ const (
 	ERR_CODE_GET_USER_LIST  = 10013
 	ERR_CODE_UPDATE_USER    = 10014
 	ERR_CODE_DELETE_USER    = 10015
+	ERR_CODE_LOGIN_USER     = 10016
 )
 
 type UserApi struct {
@@ -55,17 +56,18 @@ func (m UserApi) Login(c *gin.Context) {
 		return
 	}
 
-	iUser, err := m.Service.Login(iUserLoginDTO)
+	iUser, token, err := m.Service.Login(iUserLoginDTO)
 
 	if err != nil {
 		m.Fail(ResponseJson{
-			Msg: err.Error(),
+			Status: http.StatusUnauthorized,
+			Code:   ERR_CODE_LOGIN_USER,
+			Msg:    err.Error(),
 		})
 		return
 	}
 
-	token, _ := utils.GenerateToken(int(iUser.Id), iUser.Username)
-
+	// 将用户ID和token存储到Redis中
 	m.OK(ResponseJson{
 		Msg: "Login Success",
 		Data: gin.H{
@@ -73,19 +75,7 @@ func (m UserApi) Login(c *gin.Context) {
 			"user":  iUser,
 		},
 	})
-	// fmt.Println("login is called")
-	// ctx.JSON(http.StatusOK, gin.H{
-	// 	"msg": "login Success",
-	// })
 
-	// OK(ctx, ResponseJson{
-	// 	Msg: "login Success",
-	// })
-
-	// Fail(ctx, ResponseJson{
-	// 	Code: 9001,
-	// 	Msg:  "login Fail",
-	// })
 }
 
 func (m UserApi) AddUser(c *gin.Context) {
@@ -97,10 +87,10 @@ func (m UserApi) AddUser(c *gin.Context) {
 		return
 	}
 
-	file, _ := c.FormFile("file")
-	stFilePath := fmt.Sprintf("./uploads/%s", file.Filename)
-	_ = c.SaveUploadedFile(file, stFilePath)
-	iUserAddDTO.Avatar = stFilePath
+	// file, _ := c.FormFile("file")
+	// stFilePath := fmt.Sprintf("./uploads/%s", file.Filename)
+	// _ = c.SaveUploadedFile(file, stFilePath)
+	// iUserAddDTO.Avatar = stFilePath
 
 	err := m.Service.AddUser(&iUserAddDTO)
 

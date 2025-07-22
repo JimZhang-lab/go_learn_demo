@@ -2,7 +2,7 @@
  * @Author: JimZhang
  * @Date: 2025-07-20 12:07:52
  * @LastEditors: 很拉风的James
- * @LastEditTime: 2025-07-21 23:30:07
+ * @LastEditTime: 2025-07-22 12:22:43
  * @FilePath: /server/dao/user_dao.go
  * @Description:
  *
@@ -27,6 +27,14 @@ func NewUserDao() *UserDao {
 		}
 	}
 	return userDao
+}
+
+func (m *UserDao) GetUserByName(stUserName string) (model.User, error) {
+	var iUser model.User
+
+	err := m.Orm.Model(&iUser).Where("username = ?", stUserName).Find(&iUser).Error
+
+	return iUser, err
 }
 
 func (m *UserDao) GetUserByNameAndPassword(stUserName, stPassword string) model.User {

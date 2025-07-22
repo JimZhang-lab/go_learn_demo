@@ -2,14 +2,16 @@
  * @Author: JimZhang
  * @Date: 2025-07-19 16:37:10
  * @LastEditors: 很拉风的James
- * @LastEditTime: 2025-07-21 20:34:25
+ * @LastEditTime: 2025-07-22 12:16:20
  * @FilePath: /server/service/dto/user_dto.go
  * @Description:
  *
  */
 package dto
 
-import "server/model"
+import (
+	"server/model"
+)
 
 type UserLoginDTO struct {
 	Username string `json:"username" binding:"required" message:"用户名不能为空"`
@@ -29,6 +31,8 @@ type UserAddDTO struct {
 
 func (m *UserAddDTO) ConvertToModel(iUser *model.User) {
 	iUser.Username = m.Username
+	// stHash, _ := utils.Encrpypt(m.Password)
+	// iUser.Password = stHash
 	iUser.Password = m.Password
 	iUser.Realname = m.Realname
 	iUser.Avatar = m.Avatar
@@ -54,6 +58,8 @@ type UserUpdateDTO struct {
 
 func (m *UserUpdateDTO) ConvertToModel(iUser *model.User) {
 	iUser.Username = m.Username
+	// stHash, _ := utils.Encrpypt(m.Password)
+	// iUser.Password = stHash
 	iUser.Password = m.Password
 	iUser.Realname = m.Realname
 	iUser.Avatar = m.Avatar

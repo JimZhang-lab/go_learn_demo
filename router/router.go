@@ -2,7 +2,7 @@
  * @Author: JimZhang
  * @Date: 2025-06-29 01:21:25
  * @LastEditors: 很拉风的James
- * @LastEditTime: 2025-07-20 17:52:37
+ * @LastEditTime: 2025-07-22 13:01:37
  * @FilePath: /server/router/router.go
  * @Description:
  *
@@ -51,6 +51,7 @@ func InitRouter() {
 	r.Use(middleware.Cors())
 	rgPublic := r.Group("/api/v1/public")
 	rgAuth := r.Group("/api/v1")
+	rgAuth.Use(middleware.Auth())
 
 	initBasePlatformRouters()
 

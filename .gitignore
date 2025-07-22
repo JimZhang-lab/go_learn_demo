@@ -7,6 +7,7 @@
 *.dll
 *.so
 *.dylib
+*.log
 
 # Test binary, built with `go test -c`
 *.test
@@ -23,14 +24,12 @@ profile.cov
 # Go workspace file
 go.work
 go.work.sum
-
+/log/*
+/docs/*
+/uploads/*
 # env file
 .env
 
 # Editor/IDE
-# .idea/
-<<<<<<< HEAD
-# .vscode/
-=======
-# .vscode/
->>>>>>> master
+.idea/
+.vscode/
