@@ -78,6 +78,13 @@ func (m UserApi) Login(c *gin.Context) {
 
 }
 
+// @Tags 用户管理
+// @Summary 添加用户
+// @Description 创建新用户
+// @Param user body dto.UserAddDTO true "用户数据"
+// @Success 200 {object} ResponseJson "用户添加成功"
+// @Failure 400 {object} ResponseJson "用户添加失败"
+// @Router /api/v1/user [post]
 func (m UserApi) AddUser(c *gin.Context) {
 	var iUserAddDTO dto.UserAddDTO
 	if err := m.BulidRequest(BulidRequestOptions{
@@ -101,12 +108,18 @@ func (m UserApi) AddUser(c *gin.Context) {
 		})
 		return
 	}
-
 	m.OK(ResponseJson{
 		Data: iUserAddDTO,
 	})
 }
 
+// @Tags 用户管理
+// @Summary 根据ID获取用户
+// @Description 获取指定ID的用户信息
+// @Param id path int true "用户ID"
+// @Success 200 {object} ResponseJson "用户信息"
+// @Failure 400 {object} ResponseJson "获取用户信息失败"
+// @Router /api/v1/user/{id} [get]
 func (m UserApi) SearchUserById(c *gin.Context) {
 	var iCommonIDDTO dto.CommonIDDTO
 	if err := m.BulidRequest(BulidRequestOptions{
@@ -129,6 +142,14 @@ func (m UserApi) SearchUserById(c *gin.Context) {
 	})
 }
 
+// @Tags 用户管理
+// @Summary 获取用户列表
+// @Description 分页获取用户列表
+// @Param page query int false "页码"
+// @Param size query int false "每页数量"
+// @Success 200 {object} ResponseJson "用户列表"
+// @Failure 400 {object} ResponseJson "获取用户列表失败"
+// @Router /api/v1/user [get]
 func (m UserApi) GetUserList(c *gin.Context) {
 	var iUserListDTO dto.UserListDTO
 	if err := m.BulidRequest(BulidRequestOptions{
@@ -153,6 +174,14 @@ func (m UserApi) GetUserList(c *gin.Context) {
 	})
 }
 
+// @Tags 用户管理
+// @Summary 更新用户
+// @Description 更新指定ID的用户信息
+// @Param id path int true "用户ID"
+// @Param user body dto.UserUpdateDTO true "用户数据"
+// @Success 200 {object} ResponseJson "用户更新成功"
+// @Failure 400 {object} ResponseJson "用户更新失败"
+// @Router /api/v1/user/{id} [put]
 func (m UserApi) UpdateUser(c *gin.Context) {
 	var iUserUpdateDTO dto.UserUpdateDTO
 	// 这里得到的 id 可能是 string 类型，需要转换成 int64
@@ -180,6 +209,13 @@ func (m UserApi) UpdateUser(c *gin.Context) {
 	})
 }
 
+// @Tags 用户管理
+// @Summary 根据ID删除用户
+// @Description 删除指定ID的用户
+// @Param id path int true "用户ID"
+// @Success 200 {object} ResponseJson "用户删除成功"
+// @Failure 400 {object} ResponseJson "用户删除失败"
+// @Router /api/v1/user/{id} [delete]
 func (m *UserApi) DeleteUserById(c *gin.Context) {
 	var iCommonIDDTO dto.CommonIDDTO
 	if err := m.BulidRequest(BulidRequestOptions{
